@@ -1,0 +1,70 @@
+# dsh-rwdai-bundle
+
+一个 DSH **bundle**：把 RWDai 的几个输入框增强插件装在一起，并在插件页上分别开关。
+
+## 它是什么
+
+bundle 不是「功能代码包」，而是**装配层**——只有一份 `cordis.patch.yml`，负责往插件树里插入若干行。真正干活的仍是各自的独立插件包，各自带着 host 半与 `dsh.client` 浏览器半。
+
+```
+dsh-rwdai-bundle/           ← 本包：只有 patch，无功能代码
+  cordis.patch.yml          ← insert: ollama-quota 一行 + reference 一行
+  dependencies:
+    dsh-ollama-quota        ← github:RWDai/dsh-ollama-quota
+    dsh-reference           ← github:RWDai/dsh-reference
+```
+
+## 包含什么
+
+| 插件 | 作用 |
+|---|---|
+| [dsh-ollama-quota](https://github.com/RWDai/dsh-ollama-quota) | 输入框上方的 Ollama Cloud 套餐额度面板（余额、百分比、token、到期日、用量节奏） |
+| [dsh-reference](https://github.com/RWDai/dsh-reference) | 把对话选区与终端缓冲区一键引用进输入框（选区浮标 / 引用条 / 终端面板） |
+
+## 为什么拆成三个包
+
+`@deepseek-ai/dsh-client-modules` 有一条硬约束：**同一个包不允许占用两个 Loader 行**。
+
+```js
+if (sources.length > 1) {
+  throw new Error(`client-modules: package ${packageName} resolves from multiple active Loader sources ...`)
+}
+```
+
+所以「一个包里塞多个插件、各开一行」不可行。官方所有多组件 bundle（terminal、plugin-market、session-titles…）也都是「空壳 patch + 若干独立插件包依赖」的形态。
+
+## 怎么选择哪一个生效
+
+**用插件页的行级开关**，不是 bundle 配置。每行的 `disabled` 写回 profile 的 `cordis.patch.yml`，覆盖 bundle 层，重启后保持。
+
+bundle 层本身没有「配置」这个概念——`plugins.bundle.config` 只是插件页的一个 UI 插槽，背后是 settings 命名空间，与 cordis patch 的 `config` 是两套东西。
+
+## 安装
+
+在 DSH Web 的插件页 → 添加插件：
+
+```
+github:RWDai/dsh-rwdai-bundle
+```
+
+或本地开发用 `link:/storage/heletian/dsh-rwdai-bundle`。
+
+安装后，profile 的 `cordis.patch.yml` 里**不要再手工留**这两条 insert——同 id 重复插入会冲突（见下方注意事项）。
+
+## 行 id
+
+| id | 模块名 |
+|---|---|
+| `ollama-quota` | `dsh-ollama-quota` |
+| `reference` | `dsh-reference` |
+
+## 注意
+
+`dsh-ollama-quota` 的额度面板只在自己的 ollama 供应商下显示，`config.providers` 默认 `[ollama]`；如果你的供应商名不同，直接在 bundle 的 `cordis.patch.yml` 里改，或在 profile patch 中用同一 id 覆盖：
+
+```yaml
+- id: ollama-quota
+  config:
+    providers:
+      - 你的供应商名
+```

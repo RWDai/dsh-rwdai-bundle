@@ -1,0 +1,43 @@
+{
+  "name": "dsh-rwdai-bundle",
+  "version": "0.1.0",
+  "private": false,
+  "description": "DSH bundle：RWDai 的输入框增强组合（Ollama 套餐额度面板 + 选区/终端引用）",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./locale/*.json": "./locale/*.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "icon.svg",
+    "locale/*.json",
+    "lib/index.js",
+    "cordis.patch.yml"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "dependencies": {
+    "dsh-ollama-quota": "github:RWDai/dsh-ollama-quota",
+    "dsh-reference": "github:RWDai/dsh-reference"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-bundle",
+    "deepseek-harness",
+    "ollama",
+    "quota",
+    "quote"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  }
+}
