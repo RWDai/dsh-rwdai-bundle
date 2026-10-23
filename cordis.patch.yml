@@ -1,6 +1,6 @@
-# RWDai 输入框增强 bundle 的装配层。
+# RWDai 插件组合 bundle 的装配层。
 #
-# 这个文件只负责「插哪些行」，不含功能代码：两个插件各自仍是独立的 npm 包，
+# 这个文件只负责「插哪些行」，不含功能代码：三个插件各自仍是独立的 npm 包，
 # 各自带着自己的 host 半与 dsh.client 浏览器半。这里各插一行，插件页上就能
 # 分别开关（行级 disabled 写回 profile 的 cordis.patch.yml，覆盖本层）。
 - insert:
@@ -13,3 +13,5 @@
         paceWarnPct: 5
     - id: reference
       name: dsh-reference
+    - id: unread
+      name: dsh-unread

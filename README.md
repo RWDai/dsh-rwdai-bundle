@@ -1,6 +1,6 @@
 # dsh-rwdai-bundle
 
-一个 DSH **bundle**：把 RWDai 的几个输入框增强插件装在一起，并在插件页上分别开关。
+一个 DSH **bundle**：把 RWDai 的几个插件装在一起，并在插件页上分别开关。
 
 ## 它是什么
 
@@ -8,10 +8,11 @@ bundle 不是「功能代码包」，而是**装配层**——只有一份 `cord
 
 ```
 dsh-rwdai-bundle/           ← 本包：只有 patch，无功能代码
-  cordis.patch.yml          ← insert: ollama-quota 一行 + reference 一行
+  cordis.patch.yml          ← insert: ollama-quota + reference + unread 各一行
   dependencies:
     dsh-ollama-quota        ← github:RWDai/dsh-ollama-quota
     dsh-reference           ← github:RWDai/dsh-reference
+    dsh-unread              ← github:RWDai/dsh-unread
 ```
 
 ## 包含什么
@@ -20,8 +21,9 @@ dsh-rwdai-bundle/           ← 本包：只有 patch，无功能代码
 |---|---|
 | [dsh-ollama-quota](https://github.com/RWDai/dsh-ollama-quota) | 输入框上方的 Ollama Cloud 套餐额度面板（余额、百分比、token、到期日、用量节奏） |
 | [dsh-reference](https://github.com/RWDai/dsh-reference) | 把对话选区与终端缓冲区一键引用进输入框（选区浮标 / 引用条 / 终端面板） |
+| [dsh-unread](https://github.com/RWDai/dsh-unread) | 手动把会话标为未读（会话菜单开关 + 侧边栏行前圆点，状态存 host 侧、跨浏览器同步） |
 
-## 为什么拆成三个包
+## 为什么拆成四个包
 
 `@deepseek-ai/dsh-client-modules` 有一条硬约束：**同一个包不允许占用两个 Loader 行**。
 
@@ -49,7 +51,7 @@ github:RWDai/dsh-rwdai-bundle
 
 或本地开发用 `link:/storage/heletian/dsh-rwdai-bundle`。
 
-安装后，profile 的 `cordis.patch.yml` 里**不要再手工留**这两条 insert——同 id 重复插入会冲突（见下方注意事项）。
+安装后，profile 的 `cordis.patch.yml` 里**不要再手工留**这几条 insert——同 id 重复插入会冲突（见下方注意事项）。
 
 ## 行 id
 
@@ -57,6 +59,7 @@ github:RWDai/dsh-rwdai-bundle
 |---|---|
 | `ollama-quota` | `dsh-ollama-quota` |
 | `reference` | `dsh-reference` |
+| `unread` | `dsh-unread` |
 
 ## 注意
 
@@ -68,3 +71,5 @@ github:RWDai/dsh-rwdai-bundle
     providers:
       - 你的供应商名
 ```
+
+`dsh-unread` 的标记存在 host 的 domain 存储里（domain `dsh_unread`，表 `marks`），不是 localStorage；浏览器半只读快照、发变更，所以换浏览器、换标签页、重启之后都是同一份。端点与行为见[插件自己的 README](https://github.com/RWDai/dsh-unread)。

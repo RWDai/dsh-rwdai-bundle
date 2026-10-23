@@ -1,8 +1,8 @@
 {
   "name": "dsh-rwdai-bundle",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
-  "description": "DSH bundle：RWDai 的输入框增强组合（Ollama 套餐额度面板 + 选区/终端引用）",
+  "description": "DSH bundle：RWDai 的插件组合（Ollama 套餐额度面板 + 选区/终端引用 + 会话未读）",
   "type": "module",
   "main": "lib/index.js",
   "exports": {
@@ -26,7 +26,8 @@
   },
   "dependencies": {
     "dsh-ollama-quota": "github:RWDai/dsh-ollama-quota",
-    "dsh-reference": "github:RWDai/dsh-reference"
+    "dsh-reference": "github:RWDai/dsh-reference",
+    "dsh-unread": "github:RWDai/dsh-unread"
   },
   "keywords": [
     "dsh",
@@ -34,7 +35,9 @@
     "deepseek-harness",
     "ollama",
     "quota",
-    "quote"
+    "quote",
+    "unread",
+    "sidebar"
   ],
   "license": "MIT",
   "engines": {
