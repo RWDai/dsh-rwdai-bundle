@@ -29,7 +29,7 @@
     "dsh-reference": "github:RWDai/dsh-reference",
     "dsh-unread": "github:RWDai/dsh-unread",
     "dsh-input-history": "github:RWDai/dsh-input-history",
-    "dsh-edit-resend": "file:packages/dsh-edit-resend"
+    "dsh-edit-resend": "github:RWDai/dsh-edit-resend"
   },
   "keywords": [
     "dsh",
