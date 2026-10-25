@@ -8,11 +8,12 @@ bundle 不是「功能代码包」，而是**装配层**——只有一份 `cord
 
 ```
 dsh-rwdai-bundle/           ← 本包：只有 patch，无功能代码
-  cordis.patch.yml          ← insert: ollama-quota + reference + unread 各一行
+  cordis.patch.yml          ← insert: ollama-quota + reference + unread + input-history 各一行
   dependencies:
     dsh-ollama-quota        ← github:RWDai/dsh-ollama-quota
     dsh-reference           ← github:RWDai/dsh-reference
     dsh-unread              ← github:RWDai/dsh-unread
+    dsh-input-history       ← github:RWDai/dsh-input-history
 ```
 
 ## 包含什么
@@ -22,6 +23,7 @@ dsh-rwdai-bundle/           ← 本包：只有 patch，无功能代码
 | [dsh-ollama-quota](https://github.com/RWDai/dsh-ollama-quota) | 输入框上方的 Ollama Cloud 套餐额度面板（余额、百分比、token、到期日、用量节奏） |
 | [dsh-reference](https://github.com/RWDai/dsh-reference) | 把对话选区与终端缓冲区一键引用进输入框（选区浮标 / 引用条 / 终端面板） |
 | [dsh-unread](https://github.com/RWDai/dsh-unread) | 手动把会话标为未读（会话菜单开关 + 侧边栏行前圆点，状态存 host 侧、跨浏览器同步） |
+| [dsh-input-history](https://github.com/RWDai/dsh-input-history) | 在输入框按 ↑/↓ 像终端一样翻出本会话发过的消息（↑ 取上一条，↓ 回退，改字退出并暂存草稿） |
 
 ## 为什么拆成四个包
 
@@ -60,6 +62,7 @@ github:RWDai/dsh-rwdai-bundle
 | `ollama-quota` | `dsh-ollama-quota` |
 | `reference` | `dsh-reference` |
 | `unread` | `dsh-unread` |
+| `input-history` | `dsh-input-history` |
 
 ## 注意
 
@@ -73,3 +76,5 @@ github:RWDai/dsh-rwdai-bundle
 ```
 
 `dsh-unread` 的标记存在 host 的 domain 存储里（domain `dsh_unread`，表 `marks`），不是 localStorage；浏览器半只读快照、发变更，所以换浏览器、换标签页、重启之后都是同一份。端点与行为见[插件自己的 README](https://github.com/RWDai/dsh-unread)。
+
+`dsh-input-history` 完全跑在浏览器侧：历史来自当前会话的 chat 视图快照（`user` 与 `steering` 节点的 text 块），不落盘、不上报；↑/↓ 只在光标位于首/末行时接管，`/`、`@` 触发菜单、IME 组合、提交进行中一律让路。正在写一半的草稿会在进入浏览态前暂存，↓ 走过头时原样还回。

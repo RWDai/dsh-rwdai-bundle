@@ -1,6 +1,6 @@
 {
   "meta": {
     "title": "RWDai plugin extras",
-    "description": "The Ollama plan quota panel, selection/terminal quoting, and manual unread marks, installed together and switched separately."
+    "description": "The Ollama plan quota panel, selection/terminal quoting, manual unread marks, and composer history, installed together and switched separately."
   }
 }
