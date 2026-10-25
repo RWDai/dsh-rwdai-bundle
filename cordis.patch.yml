@@ -1,6 +1,6 @@
 # RWDai 插件组合 bundle 的装配层。
 #
-# 这个文件只负责「插哪些行」，不含功能代码：四个插件各自仍是独立的 npm 包，
+# 这个文件只负责「插哪些行」，不含功能代码：五个插件各自仍是独立的 npm 包，
 # 各自带着自己的 host 半与 dsh.client 浏览器半。这里各插一行，插件页上就能
 # 分别开关（行级 disabled 写回 profile 的 cordis.patch.yml，覆盖本层）。
 - insert:
@@ -17,3 +17,5 @@
       name: dsh-unread
     - id: input-history
       name: dsh-input-history
+    - id: edit-resend
+      name: dsh-edit-resend
