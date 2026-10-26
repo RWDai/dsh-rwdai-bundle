@@ -80,6 +80,6 @@ github:RWDai/dsh-rwdai-bundle
 
 `dsh-unread` 的标记存在 host 的 domain 存储里（domain `dsh_unread`，表 `marks`），不是 localStorage；浏览器半只读快照、发变更，所以换浏览器、换标签页、重启之后都是同一份。端点与行为见[插件自己的 README](https://github.com/RWDai/dsh-unread)。
 
-`dsh-input-history` 完全跑在浏览器侧：历史来自当前会话的 chat 视图快照（`user` 与 `steering` 节点的 text 块），不落盘、不上报；↑/↓ 只在光标位于首/末行时接管，`/`、`@` 触发菜单、IME 组合、提交进行中一律让路。正在写一半的草稿会在进入浏览态前暂存，↓ 走过头时原样还回。
+`dsh-input-history` 完全跑在浏览器侧、且**界面上不留任何东西**：历史来自当前会话的 chat 视图快照（`user` 与 `steering` 节点的 text 块），不落盘、不上报。空草稿按 ↑ 直接进历史（不做光标测量）；草稿非空时要光标在首行行首才接管，所以在草稿里移动光标不受影响。`/`、`@` 触发菜单、IME 组合、提交进行中一律让路。正在写一半的草稿会在进入浏览态前暂存，↓ 走过头时原样还回。
 
 `dsh-edit-resend` 的「编辑重跑」= 精确前缀 fork（`session.fork` 的 `atSeq`）+ 直接向子会话 prompt 编辑文本：边界之前的模型可见历史与原会话逐字节一致，供应商侧 prompt cache 能原样命中；原会话不动，子会话带 `parentSessionId`、标题自动加序号。详见[插件自己的 README](https://github.com/RWDai/dsh-edit-resend)。
